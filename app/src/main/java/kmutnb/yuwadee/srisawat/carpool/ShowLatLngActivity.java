@@ -6,11 +6,9 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -164,7 +162,7 @@ public class ShowLatLngActivity extends AppCompatActivity {
     }
 
     public void clickGoToMap(View view) {
-
+        startActivity(new Intent(ShowLatLngActivity.this, MapsActivity.class));
     }
 
 
