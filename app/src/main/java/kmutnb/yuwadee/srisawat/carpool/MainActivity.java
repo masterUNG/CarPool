@@ -135,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 objIntent.putExtra("Name", strMyResult[3]);
                 objIntent.putExtra("Surname", strMyResult[4]);
                 objIntent.putExtra("Table", tableString);
+                objIntent.putExtra("Icon", R.drawable.friend);
                 startActivity(objIntent);
 
 
@@ -169,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 objIntent.putExtra("Table", tableString);
                 objIntent.putExtra("Name", strMyResult[3]);
                 objIntent.putExtra("Surname", strMyResult[4]);
+                objIntent.putExtra("Icon", R.drawable.icon_cow);
                 startActivity(objIntent);
 
             } else {

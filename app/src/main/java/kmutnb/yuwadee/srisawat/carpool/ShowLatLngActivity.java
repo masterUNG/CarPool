@@ -162,8 +162,22 @@ public class ShowLatLngActivity extends AppCompatActivity {
     }
 
     public void clickGoToMap(View view) {
-        startActivity(new Intent(ShowLatLngActivity.this, MapsActivity.class));
-    }
+
+        //Get Lat,Lng
+        Double latDouble = Double.parseDouble(latTextView.getText().toString());
+        Double lngDouble = Double.parseDouble(lngTextView.getText().toString());
+
+        //Get Icon
+        int intIcon = getIntent().getIntExtra("Icon", R.drawable.icon_cow);
+
+        Intent objIntent = new Intent(ShowLatLngActivity.this, MapsActivity.class);
+        objIntent.putExtra("lat", latDouble);
+        objIntent.putExtra("lng", lngDouble);
+        objIntent.putExtra("Icon", intIcon);
+        startActivity(objIntent);
+
+
+    }   // clickGoToMap
 
 
 }   // Main Class
