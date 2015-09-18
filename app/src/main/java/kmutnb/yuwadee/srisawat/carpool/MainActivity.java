@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     //Explicit
     private CarUserTABLE objCarUserTABLE;
     private PassengerUserTABLE objPassengerUserTABLE;
+    private MapsTABLE objMapsTABLE;
 
     private EditText userEditText,passwordEditText;
     private String userString, passwordString, tableString = "Driver";
@@ -294,17 +295,19 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("CarPool.db", MODE_PRIVATE, null);
         objSqLiteDatabase.delete("carUserTABLE", null, null);
         objSqLiteDatabase.delete("passengerUserTABLE", null, null);
+        objSqLiteDatabase.delete("mapsTABLE", null, null);
     }
 
     private void testAddData() {
         objCarUserTABLE.addNewUserCar("myUser", "myPass", "ชื่อเจ้าของรถ", "นามสกุลเจ้าของรถ", "กก 1234 กรุงเทพ");
-        objPassengerUserTABLE.addNewPassenger("myUser", "myPass", "ชื่อผู้โดยสาร","นามสกุลผู้โดยสาร", "ที่อยู่ผู้โดยสาร", "0881234567");
-
+        objPassengerUserTABLE.addNewPassenger("myUser", "myPass", "ชื่อผู้โดยสาร", "นามสกุลผู้โดยสาร", "ที่อยู่ผู้โดยสาร", "0881234567");
+        objMapsTABLE.addValue("Name", "SurName", "Icon", "Lat", "Lng", "Date");
     }
 
     private void connectedSQLite() {
         objCarUserTABLE = new CarUserTABLE(this);
         objPassengerUserTABLE = new PassengerUserTABLE(this);
+        objMapsTABLE = new MapsTABLE(this);
     }
 
     @Override
