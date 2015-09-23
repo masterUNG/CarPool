@@ -62,10 +62,7 @@ public class CarUserTABLE {
 
         //return new String[0];
     }   // searUserCar
-
-
-
-
+    
         //Add New User
     public long addNewUserCar(String strUser, String strPassword, String strName, String strSurname, String strCarID) {
         ContentValues objContentValues = new ContentValues();

@@ -14,13 +14,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -207,7 +214,7 @@ public class ShowLatLngActivity extends AppCompatActivity {
         Date currentDate = new Date();
         String strDate = myDateFormat.format(currentDate);
 
-
+        //Show Log
         Log.d("Map", "Name = " + strName);
         Log.d("Map", "Surname = " + strSurname);
         Log.d("Map", "Icon = " + strTable);
@@ -216,7 +223,6 @@ public class ShowLatLngActivity extends AppCompatActivity {
         Log.d("Map", "Date = " + strDate);
 
         //Update Value to mySQL
-
         StrictMode.ThreadPolicy myPolicy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(myPolicy);
 
@@ -243,7 +249,71 @@ public class ShowLatLngActivity extends AppCompatActivity {
         }
 
 
+        //Synchronize Map Value to my SQLite
+        synMapValueToSQLite();
+
+
     }   // checkValue
+
+    private void synMapValueToSQLite() {
+
+        //1. Create InputStream
+        InputStream objInputStream = null;
+        String strJSON = null;
+
+        try {
+
+            HttpClient objHttpClient = new DefaultHttpClient();
+            HttpPost objHttpPost = new HttpPost("http://swiftcodingthai.com/joy/php_get_data_map.php");
+            HttpResponse objHttpResponse = objHttpClient.execute(objHttpPost);
+            HttpEntity objHttpEntity = objHttpResponse.getEntity();
+            objInputStream = objHttpEntity.getContent();
+
+        } catch (Exception e) {
+            Log.i("Map", "Create InputStream ==> " + e.toString());
+        }
+
+        //2. Create strJSON
+        try {
+
+            BufferedReader objBufferedReader = new BufferedReader(new InputStreamReader(objInputStream, "UTF-8"));
+            StringBuilder objStringBuilder = new StringBuilder();
+            String strLine = null;
+
+            while ((strLine = objBufferedReader.readLine()) != null ) {
+                objStringBuilder.append(strLine);
+            }   // while
+            objInputStream.close();
+            strJSON = objStringBuilder.toString();
+
+        } catch (Exception e) {
+            Log.i("Map", "strJSON ==> " + e.toString());
+        }
+
+        //3. Synchronize strJSON to SQLite
+        try {
+
+            final JSONArray objJsonArray = new JSONArray(strJSON);
+            for (int i = 0; i < objJsonArray.length(); i++) {
+
+                JSONObject object = objJsonArray.getJSONObject(i);
+                MapsTABLE objMapsTABLE = new MapsTABLE(this);
+                String strName = object.getString("Name");
+                String strSurname = object.getString("Surname");
+                String strIcon = object.getString("Icon");
+                String strLat = object.getString("Lat");
+                String strLng = object.getString("Lng");
+                String strDate = object.getString("Date");
+                objMapsTABLE.addValue(strName, strSurname, strIcon, strLat, strLng, strDate);
+
+            }   // for
+
+
+        } catch (Exception e) {
+            Log.i("Map", "Update SQLite ==> " + e.toString());
+        }
+
+    }   // synMapValueToSQLite
 
 
 }   // Main Class

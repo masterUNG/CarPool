@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //testAddData();
 
         //Delete All SQlite
-        deleteAllSQLite();
+          deleteAllSQLite();
 
         //synchronize JSON to SQLite
 
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
 
             //Check Password
             if (passwordString.equals(strMyResult[2])) {
+
                 //Intent To ShowLatLng
                 Intent objIntent = new Intent(MainActivity.this, ShowLatLngActivity.class);
                 objIntent.putExtra("Name", strMyResult[3]);
