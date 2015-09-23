@@ -28,6 +28,25 @@ public class CarUserTABLE {
         readSqLiteDatabase = objMyOpenHelper.getReadableDatabase();
     }   //Constructor
 
+    //Read All Car
+    public String[] readAllCar() {
+
+        String[] strName = null;
+        Cursor objCursor = readSqLiteDatabase.query(CAR_USER_TABLE,
+                new String[]{COLUMN_ID_CAR, COLUMN_NAME_CAR},
+                null, null, null, null, null);
+        if (objCursor != null) {
+            objCursor.moveToFirst();
+            strName = new String[objCursor.getCount()];
+            for (int i = 0; i < objCursor.getCount(); i++) {
+                strName[i] = objCursor.getString(objCursor.getColumnIndex(COLUMN_NAME_CAR));
+                objCursor.moveToNext();
+            }   // for
+        }   // if
+        objCursor.close();
+        return strName;
+    }
+
     //Search User
     public String[] searchUserCar(String strUser) {
 
@@ -62,8 +81,8 @@ public class CarUserTABLE {
 
         //return new String[0];
     }   // searUserCar
-    
-        //Add New User
+
+    //Add New User
     public long addNewUserCar(String strUser, String strPassword, String strName, String strSurname, String strCarID) {
         ContentValues objContentValues = new ContentValues();
         objContentValues.put(COLUMN_USER_CAR, strUser);

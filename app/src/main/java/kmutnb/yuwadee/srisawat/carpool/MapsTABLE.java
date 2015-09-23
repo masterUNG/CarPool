@@ -2,6 +2,7 @@ package kmutnb.yuwadee.srisawat.carpool;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -27,6 +28,15 @@ public class MapsTABLE {
         writeSqLiteDatabase = objMyOpenHelper.getWritableDatabase();
         readSqLiteDatabase = objMyOpenHelper.getReadableDatabase();
     }   // Constructor
+
+    //Query Special Name
+    public String[] lastPositionCar(String strName) {
+
+        String[] strResult = null;
+        //Cursor objCursor = readSqLiteDatabase.rawQuery();
+
+        return new String[0];
+    }
 
     public long addValue(String strName,
                          String strSurname,

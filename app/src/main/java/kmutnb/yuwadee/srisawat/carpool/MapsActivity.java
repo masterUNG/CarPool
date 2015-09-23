@@ -2,6 +2,7 @@ package kmutnb.yuwadee.srisawat.carpool;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -15,7 +16,7 @@ public class MapsActivity extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private double latCenterADouble, lngCenterADouble;
     private LatLng centerLatLng;
-
+    private String[] nameCarStrings;
 
 
     @Override
@@ -26,8 +27,25 @@ public class MapsActivity extends FragmentActivity {
         //Receive Lat,lng from Intent
         receiveLatLng();
 
+        //Find LatLng For Every Maker
+        findLatLngForEveryMaker();
+
+
         setUpMapIfNeeded();
     }   // onCreate
+
+    private void findLatLngForEveryMaker() {
+
+        //Get All Name Car
+        CarUserTABLE objCarUserTABLE = new CarUserTABLE(this);
+        nameCarStrings = objCarUserTABLE.readAllCar();
+
+        //Check NameCar
+        for (int i = 0; i < nameCarStrings.length;i++ ) {
+            Log.i("Map", "NameCar("+ Integer.toString(i)+") = " + nameCarStrings[i]);
+        } // for
+
+    }   // findLatLngForEveryMaker
 
     private void receiveLatLng() {
         latCenterADouble = getIntent().getDoubleExtra("lat", 13.818802);
