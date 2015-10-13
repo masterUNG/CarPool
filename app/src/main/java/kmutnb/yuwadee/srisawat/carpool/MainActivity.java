@@ -209,13 +209,14 @@ public class MainActivity extends AppCompatActivity {
 
         //setup Variable & Constant
         int intTimes = 0;
-        while (intTimes <= 1) {
+        while (intTimes <= 2) {
 
             InputStream objInputStream = null;
             String strJSON = null;
             HttpPost objHttpPost;
             String[] strUrlJSON = {"http://swiftcodingthai.com/joy/php_get_data_Yawadee.php",
-                    "http://swiftcodingthai.com/joy/php_get_passenger_Yawadee.php"};
+                    "http://swiftcodingthai.com/joy/php_get_passenger_Yawadee.php",
+                    "http://swiftcodingthai.com/joy/php_get_data_map.php"};
 
             //1.Create InputStream
             try {
@@ -255,31 +256,60 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < objJsonArray.length(); i++) {
 
                     JSONObject object = objJsonArray.getJSONObject(i);
+
+                    switch (intTimes) {
+                        case 0:
+
+                            //Update car_user_TABLE
+                            String strUser = object.getString("User");
+                            String strPassword = object.getString("Password");
+                            String strName = object.getString("Name");
+                            String strSurname = object.getString("Surname");
+                            String strCarID = object.getString("CarID");
+                            String strPicture = object.getString("Picture");
+                            String strID_officer = object.getString("id_office");
+
+                            objCarUserTABLE.addNewUserCar(strUser, strPassword, strName, strSurname, strCarID, strPicture, strID_officer);
+
+
+                            break;
+                        case 1:
+
+                            //Update passenger_user_TABLE
+                            strUser = object.getString("User");
+                            strPassword = object.getString("Password");
+                            strName = object.getString("Name");
+                            strSurname = object.getString("Surname");
+                            String strAddress = object.getString("Address");
+                            String strPhone = object.getString("Phone");
+
+                            objPassengerUserTABLE.addNewPassenger(strUser, strPassword, strName,
+                                    strSurname, strAddress, strPhone);
+
+
+                            break;
+                        case 2:
+
+                            //Update mapTABLE
+                            strName = object.getString("Name");
+                            strSurname = object.getString("Surname");
+                            String strIcon = object.getString("Icon");
+                            String strLat = object.getString("Lat");
+                            String strLng = object.getString("Lng");
+                            String strDate = object.getString("Date");
+
+                            objMapsTABLE.addValue(strName, strSurname, strIcon, strLat, strLng, strDate);
+
+                            break;
+                    }   // switch
+
+
                     if (intTimes !=1) {
 
-                        //Update car_user_TABLE
-                        String strUser = object.getString("User");
-                        String strPassword = object.getString("Password");
-                        String strName = object.getString("Name");
-                        String strSurname = object.getString("Surname");
-                        String strCarID = object.getString("CarID");
-                        String strPicture = object.getString("Picture");
-                        String strID_officer = object.getString("id_office");
 
-                        objCarUserTABLE.addNewUserCar(strUser, strPassword, strName, strSurname, strCarID, strPicture, strID_officer);
                     } else {
-                        //Update passenger_user_TABLE
-                        String strUser = object.getString("User");
-                        String strPassword = object.getString("Password");
-                        String strName = object.getString("Name");
-                        String strSurname = object.getString("Surname");
-                        String strAddress = object.getString("Address");
-                        String strPhone = object.getString("Phone");
 
-                        objPassengerUserTABLE.addNewPassenger(strUser, strPassword, strName,
-                                strSurname, strAddress, strPhone);
-
-                    }
+                    }   // if
 
                 }   //for
 
