@@ -21,6 +21,8 @@ public class CarUserTABLE {
     public static final String COLUMN_NAME_CAR = "Name";
     public static final String COLUMN_SURNAME_CAR = "Surname";
     public static final String COLUMN_CARID = "CarID";
+    public static final String COLUMN_PICTURE = "Picture";
+    public static final String COLUMN_ID_OFFICER = "id_office";
 
     public CarUserTABLE(Context context) {
         objMyOpenHelper = new MyOpenHelper(context);
@@ -28,7 +30,7 @@ public class CarUserTABLE {
         readSqLiteDatabase = objMyOpenHelper.getReadableDatabase();
     }   //Constructor
 
-    //Read All Car
+    //Return All Name of Car
     public String[] readAllCar() {
 
         String[] strName = null;
@@ -83,13 +85,22 @@ public class CarUserTABLE {
     }   // searUserCar
 
     //Add New User
-    public long addNewUserCar(String strUser, String strPassword, String strName, String strSurname, String strCarID) {
+    public long addNewUserCar(String strUser,
+                              String strPassword,
+                              String strName,
+                              String strSurname,
+                              String strCarID,
+                              String strPicture,
+                              String strID_Office) {
+
         ContentValues objContentValues = new ContentValues();
         objContentValues.put(COLUMN_USER_CAR, strUser);
         objContentValues.put(COLUMN_PASSWORD_CAR, strPassword);
         objContentValues.put(COLUMN_NAME_CAR, strName);
         objContentValues.put(COLUMN_SURNAME_CAR, strSurname);
         objContentValues.put(COLUMN_CARID, strCarID);
+        objContentValues.put(COLUMN_PICTURE, strPicture);
+        objContentValues.put(COLUMN_ID_OFFICER, strID_Office);
 
         return writeSqLiteDatabase.insert(CAR_USER_TABLE, null, objContentValues);
     }

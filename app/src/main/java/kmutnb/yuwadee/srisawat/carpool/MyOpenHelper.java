@@ -11,7 +11,7 @@ public class MyOpenHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME = "CarPool.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String CREATE_USER_CAR = "create table carUserTABLE (_id integer primary key, User text, Password text, Name text, Surname text, CarID text);";
+    private static final String CREATE_USER_CAR = "create table carUserTABLE (_id integer primary key, User text, Password text, Name text, Surname text, CarID text, Picture text, id_office text);";
     private static final String CREATE_USER_PASSENGER = "create table passengerUserTABLE (_id integer primary key, User text, Password text,Name text, Surname text,Address text, Phone text);";
     private static final String CREATE_MAPS = "create table mapsTABLE (_id integer primary key, Name text, Surname text, Icon text, Lat text, Lng text, Date text);";
 

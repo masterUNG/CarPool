@@ -263,8 +263,10 @@ public class MainActivity extends AppCompatActivity {
                         String strName = object.getString("Name");
                         String strSurname = object.getString("Surname");
                         String strCarID = object.getString("CarID");
+                        String strPicture = object.getString("Picture");
+                        String strID_officer = object.getString("id_office");
 
-                        objCarUserTABLE.addNewUserCar(strUser, strPassword, strName, strSurname, strCarID);
+                        objCarUserTABLE.addNewUserCar(strUser, strPassword, strName, strSurname, strCarID, strPicture, strID_officer);
                     } else {
                         //Update passenger_user_TABLE
                         String strUser = object.getString("User");
@@ -300,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testAddData() {
-        objCarUserTABLE.addNewUserCar("myUser", "myPass", "ชื่อเจ้าของรถ", "นามสกุลเจ้าของรถ", "กก 1234 กรุงเทพ");
+        objCarUserTABLE.addNewUserCar("myUser", "myPass", "ชื่อเจ้าของรถ", "นามสกุลเจ้าของรถ", "กก 1234 กรุงเทพ", "Picture", "id_officer");
         objPassengerUserTABLE.addNewPassenger("myUser", "myPass", "ชื่อผู้โดยสาร", "นามสกุลผู้โดยสาร", "ที่อยู่ผู้โดยสาร", "0881234567");
         objMapsTABLE.addValue("Name", "SurName", "Icon", "Lat", "Lng", "Date");
     }
