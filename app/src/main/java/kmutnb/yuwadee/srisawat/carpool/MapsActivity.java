@@ -1,5 +1,7 @@
 package kmutnb.yuwadee.srisawat.carpool;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +19,8 @@ public class MapsActivity extends FragmentActivity {
     private double latCenterADouble, lngCenterADouble;
     private LatLng centerLatLng;
     private String[] nameCarStrings;
+    private double[] latCarDoubles, lngCarDoubles;
+    private LatLng[] carLatLngs;
 
 
     @Override
@@ -41,9 +45,28 @@ public class MapsActivity extends FragmentActivity {
         nameCarStrings = objCarUserTABLE.readAllCar();
 
         //Check NameCar
-        for (int i = 0; i < nameCarStrings.length;i++ ) {
-            Log.i("Map", "NameCar("+ Integer.toString(i)+") = " + nameCarStrings[i]);
-        } // for
+        latCarDoubles = new double[nameCarStrings.length];
+        lngCarDoubles = new double[nameCarStrings.length];
+        carLatLngs = new LatLng[nameCarStrings.length];
+
+        try {
+
+            for (int i = 0; i < nameCarStrings.length; i++) {
+                Log.i("Map", "NameCar(" + Integer.toString(i) + ") = " + nameCarStrings[i]);
+
+                SQLiteDatabase objSqLiteDatabase = openOrCreateDatabase("CarPool.db", MODE_PRIVATE, null);
+                Cursor carCursor = objSqLiteDatabase.rawQuery("SELECT * FROM mapsTABLE WHERE Name = " + "'" + nameCarStrings[i] + "'", null);
+                carCursor.moveToFirst();
+                carCursor.moveToLast();
+                latCarDoubles[i] = Double.parseDouble(carCursor.getString(carCursor.getColumnIndex("Lat")));
+                lngCarDoubles[i] = Double.parseDouble(carCursor.getString(carCursor.getColumnIndex("Lng")));
+                carLatLngs[i] = new LatLng(latCarDoubles[i], lngCarDoubles[i]);
+                carCursor.close();
+            } // for
+
+        } catch (Exception e) {
+            Log.e("Map", "e Error ====> " + e.toString());
+        }
 
     }   // findLatLngForEveryMaker
 
@@ -91,13 +114,21 @@ public class MapsActivity extends FragmentActivity {
         //Create Center Maker Map
         int intIcon = getIntent().getIntExtra("Icon", R.drawable.icon_cow);
         mMap.addMarker(new MarkerOptions()
-        .position(centerLatLng)
-        .icon(BitmapDescriptorFactory.fromResource(intIcon)));
+                .position(centerLatLng)
+                .icon(BitmapDescriptorFactory.fromResource(intIcon)));
+
+        //Create Car Maker
+        for (int i = 0; i < nameCarStrings.length; i++) {
+
+            mMap.addMarker(new MarkerOptions().position(carLatLngs[i]));
+
+        }   // for
+
 
     }   // createMaker
 
     private void showMap() {
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(centerLatLng, 16));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(centerLatLng, 15));
     }
 
     private void createLatLng() {
